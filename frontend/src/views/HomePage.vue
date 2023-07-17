@@ -2,9 +2,7 @@
   <v-app>
     <AppBarComponent />
     <SideBarComponent />
-    <v-main>
-    <user-management-component/>
-    </v-main>
+    <ContainerManagementComponent></ContainerManagementComponent>
     <footer-component></footer-component>
   </v-app>
 </template>
@@ -14,8 +12,8 @@ import { defineComponent } from "vue";
 // Components
 import AppBarComponent from "@/components/AppBarComponent.vue";
 import SideBarComponent from "@/components/SideBarComponent.vue";
-import UserManagementComponent from "@/components/UserManagementComponent.vue";
 import FooterComponent from "../components/FooterComponent.vue";
+import ContainerManagementComponent from "@/components/ContainerManagementComponent.vue";
 
 
 export default defineComponent({
@@ -28,10 +26,9 @@ export default defineComponent({
   components: {
     AppBarComponent,
     SideBarComponent,
-    UserManagementComponent,
     FooterComponent,
-
-  },
+    ContainerManagementComponent
+},
 
 
   data:() => ({

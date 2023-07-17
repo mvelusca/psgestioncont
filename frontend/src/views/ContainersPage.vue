@@ -1,8 +1,8 @@
 <template>
   <div>
   <AppBarComponent/>
-  <SideBarComponent valueEnfant="valueParent"/>
-  <ListeContainers valueEnfant="valueParent"/>
+  <SideBarComponent />
+  <ListeContainers />
 </div>
 </template>
 
@@ -16,7 +16,9 @@ import ListeContainers from "@/components/ListeContainers.vue";
 
 export default defineComponent({
   name: "ContainersPage",
-  
+  //data: {
+    //valueParent: listGlobal,
+  //},
   components: {
     AppBarComponent,
     SideBarComponent,

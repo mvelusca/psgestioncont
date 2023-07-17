@@ -5,98 +5,94 @@
       Bouton "administration"-->
 
 <template>
-    <v-navigation-drawer app :expand-on-hover="expandOnHover" :right="$vuetify.rtl" color="#084772" theme="dark" v-model="drawer" v-bind="$attrs">
-      <v-list>
-        <!-- item pour le tableau de bord -->
-          <v-list-item prepend-icon="mdi-view-dashboard" title="Tableau de bord" value="Dashboard"></v-list-item>
-        <!-- liste groupée de bouton contenu dans le bouton conteneur -->
-          <v-list v-model="open">
-            <v-list-group  value="Conteneurs" >
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  prepend-icon="mdi-file-outline"
-                  v-bind="props"
-                  title="Conteneurs"
-                ></v-list-item>
-              </template>
+  <!-- <ListeContainer :message=containerName /> -->
+  <v-navigation-drawer ref="sidebar" app :expand-on-hover="expandOnHover" :right="$vuetify.rtl" color="#084772" theme="dark" v-model="drawer" v-bind="$attrs">
+    <input ref="input">
+    <v-list>
+      <v-list-item prepend-icon="mdi-view-dashboard" title="Tableau de bord" value="Dashboard"></v-list-item>
+      <v-list v-model="open">
 
+        <v-list-group value="Conteneurs">
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              prepend-icon="mdi-file-outline"
+              v-bind="props"
+              title="Conteneurs"
+            ></v-list-item>
+          </template>
 
-            <v-list-group value="Global">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="Global"></v-list-item>
-              </template>
+          <v-list-group value="Global">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="Global"></v-list-item>
+            </template>
 
-              <v-list-item
-                v-for="item in listGlobal"
-                :key="item.name"
-                :value="item.name"
-                :title="item.name"
-                prepend-icon="mdi-file-outline"
-                @click="setContainerSelected(!$store.state.containerSelected)"
-                min-width="400"
-                style="margin-left: -40%;"
-              ></v-list-item>
-            </v-list-group>
-
-            <v-list-group value="Alfresco">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="Alfresco"></v-list-item>
-              </template>
-
-              <v-list-item
-                v-for="item in $store.state.listAlfresco"
-                :key="item.name"
-                :value="item.name"
-                :title="item.name"
-                prepend-icon="mdi-file-outline"
-                @click="setContainerSelected(!$store.state.containerSelected)"
-                min-width="400"
-                style="margin-left: -40%;"
-              ></v-list-item>
-            </v-list-group>
-
-
-            <v-list-group value="Nuxeo" >
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="Nuxeo"></v-list-item>
-              </template>
-
-              <v-list-item
-                v-for="item in $store.state.listNuxeo"
-                :key="item.name"
-                :value="item.name"
-                :title="item.name"
-                prepend-icon="mdi-file-outline"
-                @click="setContainerSelected(!$store.state.containerSelected)"
-                min-width="400"
-                style="margin-left: -40%;"
-              ></v-list-item>
-            </v-list-group>
-
-
-            <v-list-group value="FileNet">
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" title="FileNet"></v-list-item>
-              </template>
-
-              <v-list-item
-                v-for="item in $store.state.listFileNet"
-                :key="item.name"
-                :value="item.name"
-                :title="item.name"
-                prepend-icon="mdi-file-outline"
-                @click="setContainerSelected(!$store.state.containerSelected)"
-                min-width="400"
-                style="margin-left: -40%;"
-              ></v-list-item>
-            </v-list-group>
-
+            <v-list-item
+              v-for="item in listGlobal"
+              :key="item"
+              :value="item"
+              :title="item.name"
+              prepend-icon="mdi-file-outline"
+              @click="setContainerSelected(item)"
+              min-width="400"
+              style="margin-left: -40%;"
+            ></v-list-item>
           </v-list-group>
-          </v-list>
 
+          <v-list-group value="Alfresco">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="Alfresco"></v-list-item>
+            </template>
+
+            <v-list-item
+              v-for="item in listAlfresco"
+              :key="item"
+              :value="item"
+              :title="item.name"
+              prepend-icon="mdi-file-outline"
+              @click="setContainerSelected(item)"
+              min-width="400"
+              style="margin-left: -40%;"
+            ></v-list-item>
+          </v-list-group>
+
+          <v-list-group value="Nuxeo">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="Nuxeo"></v-list-item>
+            </template>
+
+            <v-list-item
+              v-for="item in listNuxeo"
+              :key="item"
+              :value="item"
+              :title="item.name"
+              prepend-icon="mdi-file-outline"
+              @click="setContainerSelected(item)"
+              min-width="400"
+              style="margin-left: -40%;"
+            ></v-list-item>
+          </v-list-group>
+
+          <v-list-group value="FileNet">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="FileNet"></v-list-item>
+            </template>
+
+            <v-list-item
+              v-for="item in listFileNet"
+              :key="item"
+              :value="item"
+              :title="item.name"
+              prepend-icon="mdi-file-outline"
+              @click="setContainerSelected(item)"
+              min-width="400"
+              style="margin-left: -40%;"
+            ></v-list-item>
+          </v-list-group>
+        </v-list-group>
+      </v-list>
           <!-- item pour l'administration -->
 
-            <v-list v-model="open">
+          <v-list v-model="open">
               <v-list-group value="Admin">
               <template v-slot:activator="{ props }">
                 <v-list-item
@@ -115,17 +111,17 @@
                 min-width="400"
                 style="margin-left: -20%;"
               ></v-list-item>
-            </v-list-group>
-          </v-list>
+        </v-list-group>
       </v-list>
-    </v-navigation-drawer>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
 export default {
-  name:"SideBarComponent",
+
 
   props: {
     expandOnHover: {
@@ -135,50 +131,57 @@ export default {
   },
 
   data: () => ({
-    open: ['Conteneurs'],
-    admins: [
-      ['Gestion des utilisateurs', 'mdi-account-multiple-outline'],
-      ['Gestion des conteneurs', 'mdi mdi-database-cog-outline'],
-    ],
+
+      open: ['Conteneurs'],
+      admins: [
+        ['Gestion des utilisateurs', 'mdi-account-multiple-outline'],
+        ['Gestion des conteneurs', 'mdi mdi-database-cog-outline'],
+      ],
+      //message: containerName,
+
   }),
 
-
-
   computed: {
-    ...mapState(['containerSelected']),
     ...mapState(['listAlfresco']),
     ...mapState(['listFileNet']),
     ...mapState(['listNuxeo']),
+    ...mapState(['containerSelected']),
 
     ...mapGetters(['getContainer']),
     ...mapGetters(['getListe']),
+    ... mapGetters(['listGlobal']),
 
-    listGlobal() {
-      return this.listAlfresco.concat(this.listFileNet, this.listNuxeo) ;
-    },
 
+    ...mapMutations(['SET_DRAWER']),
+
+    //...mapActions(['selectContainer']),
 
     drawer: {
-      get () {
-       return this.$store.state.drawer
+      get() {
+        return this.$store.state.drawer;
       },
-
-      set (val) {
-        this.$store.commit('SET_DRAWER', val)
+      set(val) {
+        this.$store.commit('SET_DRAWER', val);
       },
-
     },
   },
+
   methods: {
-    ...mapMutations({
-      setContainerSelected: 'SET_CONTAINER_SELECTED',
-    }),
+    ...mapMutations(['SET_CONTAINER_SELECTED']),
+    ...mapMutations(['SET_CONTAINER_NAME']),
 
+    setContainerSelected(item) {
+      //console.error(item);
+      //const containerName = item;
+      this.$store.commit('SET_CONTAINER_SELECTED', item);
+
+      //this.$store.commit('SET_DRAWER', false);
+      //containerSelected = containerName;
+      //console.error(containerSelected);
+      //console.error(containerName);
+    },
   },
-
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

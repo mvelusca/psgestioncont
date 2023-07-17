@@ -1,6 +1,7 @@
 <template>
     <!--Déclaration du tableau-->
-    <v-table  height="580px" class="tableau">
+    <v-table  height="580px" class="tableau" >
+      <!--:key="componentKey"-->
       <thead>
         <tr>
           <th class="text-left" style="color: #084772">Nom du conteneur</th>
@@ -12,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in $store.state.containerSelected" :key="item.name">
+        <tr v-for="item in listToDisplay" :key="item.name">
           <td>{{ item.name }}</td>
           <td>{{ item.createur }}</td>
           <td>{{ item.date }}</td>
@@ -22,23 +23,17 @@
           <td>{{ item.activite }}</td>
           <td>
             <v-btn class="ma-2" color="#084772">
-                <p style="color: white; font-size:x-small ;">Start
-              <v-icon
-              end
-              icon="mdi-checkbox-marked-circle"
-              ></v-icon>
-            </p>
-            </v-btn>
-          </td>
-          <td>
-            <v-btn class="ma-2" color="#FF6F00">
-                <p style="color: white; font-size:x-small ;">Stop
-              <v-icon
-              end
-              icon="mdi-cancel"
-              ></v-icon>
-            </p>
-            </v-btn>
+    <p style="color: white; font-size: x-small;">Start
+      <v-icon end icon="mdi-checkbox-marked-circle"></v-icon>
+    </p>
+  </v-btn>
+</td>
+<td>
+  <v-btn class="ma-2" color="#FF6F00">
+    <p style="color: white; font-size: x-small;">Stop
+      <v-icon end icon="mdi-cancel"></v-icon>
+    </p>
+  </v-btn>
           </td>
         </tr>
       </tbody>
@@ -46,24 +41,38 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex';
+//import {ref} from 'vue';
+import SideBarComponent from './SideBarComponent.vue';
 
 export default {
-  data: () => ({
+  components:{
+    SideBarComponent,
+  },
 
-  }),
   computed: {
-    containerSelected: {
-      get () {
-       return this.$store.state.containerSelected;
-      },
-      set (val) {
-        this.$store.commit('SET_SELECTED_CONTAINER', val)
-      },
+    ... mapState(['listGlobal']),
+    ... mapGetters(['listGlobal']),
+
+    listToDisplay() {
+      const containerSelected = this.$store.state.containerSelected;
+      //console.error(containerName);
+      if (!containerSelected || containerSelected === '') {
+        return this.listGlobal;
+      }
+      else {
+        var newList = [];
+        newList.push(containerSelected);
+        return newList;
+
+      }
     },
 },
+
+watch: {},
+
 };
 </script>
-
 
 <style>
 .mx-auto {
