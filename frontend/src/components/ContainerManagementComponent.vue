@@ -1,11 +1,11 @@
 <template>
-  <v-container style="margin: 10%; ">
+  <v-container style="margin: 5%; ">
   <v-data-table
     :search="search"
     :headers="headers"
     :items="conteneurs"
     :sort-by="[{ key: 'calories', order: 'asc' }]"
-    class="elevation-1"
+    class="elevation-1 text-center"
   >
     <template v-slot:top>
       <v-toolbar
@@ -14,7 +14,7 @@
         <v-toolbar-title><h3>Gestion des Conteneurs</h3></v-toolbar-title>
         <v-text-field
           v-model="search"
-          label="Search"
+          label="Rechercher"
           single-line
           hide-details
           variant="underlined"
@@ -130,19 +130,16 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-        size="small"
-        class="me-2"
-        @click="editItem(item.raw)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        size="small"
-        @click="deleteItem(item.raw)"
-      >
-        mdi-delete
-      </v-icon>
+      <v-btn class="ma-3" color="#084772" @click="editItem(item.raw)">
+        <p style="color: white; font-size: x-small;">Modifier
+          <v-icon  end icon="mdi-pencil"></v-icon>
+        </p>
+      </v-btn>
+      <v-btn class="ma-3" color="#FF6F00" @click="deleteItem(item.raw)">
+        <p style="color: white; font-size: x-small;">Supprimer
+          <v-icon end icon="mdi-delete"></v-icon>
+        </p>
+      </v-btn>
     </template>
     <template v-slot:no-data>
       <v-btn
@@ -181,7 +178,7 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
         { title: 'Id du conteneur', key: 'fat' },
         { title: 'Progiciel', key: 'carbs' },
         { title: 'Date de création', key: 'protein' },
-        { title: 'Actions', key: 'actions', sortable: false },
+        { title: 'Actions', key: 'actions', sortable: false,  },
       ],
       conteneurs: [],
       editedIndex: -1,
