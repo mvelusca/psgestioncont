@@ -1,29 +1,61 @@
 <template>
   <v-container style="margin: 5%; ">
+  <h1>Gestion des conteneurs</h1>
   <v-data-table
     :search="search"
     :headers="headers"
     :items="conteneurs"
-    :sort-by="[{ key: 'calories', order: 'asc' }]"
+    :sort-by="[{ key: 'owner', order: 'asc' }]"
     class="elevation-1 text-center"
+    border-cell
   >
+    <template v-slot:column.owner="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
+    <template v-slot:column.name="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
+    <template v-slot:column.id="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
+    <template v-slot:column.progiciel="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
+    <template v-slot:column.date="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
+    <template v-slot:column.actions="{ column }">
+      {{ column.title.toUpperCase() }}
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title><h3>Gestion des Conteneurs</h3></v-toolbar-title>
+      <v-row>
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+        >
         <v-text-field
           v-model="search"
           label="Rechercher"
           single-line
           hide-details
           variant="underlined"
+          class="recherche"
         ></v-text-field>
+      </v-col>
+    </v-row>
         <v-dialog
           v-model="dialog"
           max-width="500px"
         >
           <template v-slot:activator="{ props }">
+            <v-row style="width: max-content; margin-right: -30%;">
+            <v-col
+              align-self="end" 
+            >
             <v-btn
               color="primary"
               dark
@@ -32,8 +64,10 @@
             >
               Nouveau
             </v-btn>
+            </v-col>
+            </v-row>
           </template>
-          <v-card>
+          <v-card width="550px">
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
@@ -57,8 +91,8 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.calories"
-                      label="OwnerId"
+                      v-model="editedItem.owner"
+                      label="owner"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -67,7 +101,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.fat"
+                      v-model="editedItem.id"
                       label="id"
                     ></v-text-field>
                   </v-col>
@@ -77,21 +111,22 @@
                     md="4"
                   >
                   <v-select
-                    v-model="editedItem.carbs"
+                    v-model="editedItem.progiciel"
                     label="Select"
                     :items="['NUXEO', 'ALFRESCO', 'FILENET']"
 
                   ></v-select>
                   </v-col>
                   <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
+                    cols="15"
+                    sm="8"
+                    md="6"
                   >
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
+                  <v-text-field
+                    type="date"
+                    v-model="editedItem.date"
+                    label="date de création"
+                  ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -158,10 +193,12 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 
+
   export default {
     name: "ContainerManagementComponent",
     components:{
-      VDataTable
+      VDataTable,
+      
     },
     data: () => ({
       dialog: false,
@@ -174,33 +211,43 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
           sortable: false,
           key: 'name',
         },
-        { title: 'Id du créateur', key: 'calories' },
-        { title: 'Id du conteneur', key: 'fat' },
-        { title: 'Progiciel', key: 'carbs' },
-        { title: 'Date de création', key: 'protein' },
-        { title: 'Actions', key: 'actions', sortable: false,  },
+        { title: 'Propriétaire', key: 'owner' },
+        { title: 'Id du conteneur', key: 'id' },
+        { title: 'Progiciel', key: 'progiciel' },
+        { title: 'Date de création', key: 'date' },
+        { title: 'Actions', key: 'actions', sortable: false, align: 'center' },
       ],
       conteneurs: [],
       editedIndex: -1,
       editedItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        owner: 0,
+        id: 0,
+        progiciel: '',
+        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
       },
       defaultItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        owner: 0,
+        id: 0,
+        progiciel: '',
+        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
       },
+      
     }),
 
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Nouveau conteneur' : 'Editer le conteneur'
+      },
+      picker: {
+        get() {
+          return this.value;
+        },
+        set(val) {
+          this.menu = false;
+          this.$emit("input", val);
+        },
       },
     },
 
@@ -222,73 +269,59 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
         this.conteneurs = [
           {
             name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
+            owner: 159,
+            id: 6.0,
+            progiciel: "NUXEO",
+            date: 4.0,
           },
           {
             name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
+            owner: 237,
+            id: 9.0,
+            progiciel: "ALFRESCO",
+            date: 4.3,
           },
           {
             name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
+            owner: 262,
+            id: 16.0,
+            progiciel: "FILENET",
+            date: 6.0,
           },
           {
             name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
+            owner: 305,
+            id: 3.7,
+            progiciel: "NUXEO",
+            date: 4.3,
           },
           {
             name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
+            owner: 356,
+            id: 16.0,
+            progiciel: "ALFRESCO",
+            date: 3.9,
           },
           {
             name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
+            owner: 375,
+            id: 0.0,
+            progiciel: "NUXEO",
+            date: 0.0,
           },
           {
             name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
+            owner: 392,
+            id: 0.2,
+            progiciel: "FILENET",
+            date: 0,
           },
           {
             name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
+            owner: 408,
+            id: 3.2,
+            progiciel: "NUXEO",
+            date: 6.5,
           },
         ]
       },
@@ -337,3 +370,8 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
     },
   }
 </script>
+<style>
+  .recherche{
+    margin: 5%;
+  }
+</style>

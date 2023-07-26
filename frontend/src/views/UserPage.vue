@@ -5,7 +5,7 @@
         <v-col cols="10" md="8">
           <h1 style="margin-bottom: 3%; margin-top: 5%;">Profil d'utilisateur</h1>
           <v-card>
-              <v-tabs v-model="tab">
+              <v-tabs v-model="tab" grow>
                 <v-tab value="editer">Editer votre profil</v-tab>
                 <v-tab value="supprimer">Supprimer votre profil</v-tab>
               </v-tabs>

@@ -2,7 +2,9 @@
   <v-app>
     <AppBarComponent />
     <SideBarComponent />
+    <v-main>
     <ContainerManagementComponent></ContainerManagementComponent>
+    </v-main>
     <footer-component></footer-component>
   </v-app>
 </template>

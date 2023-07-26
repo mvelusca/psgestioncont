@@ -14,37 +14,28 @@
       <v-form fast-fail @submit.prevent="submitHandler" ref="form">
         <v-text-field
           v-model="nom"
-          label="Nom :"
+          label="Nom"
           :rules="nomRules"
           prepend-inner-icon="mdi-account"
         ></v-text-field>
 
         <v-text-field
           v-model="prenom"
-          label="Prénom :"
+          label="Prénom"
           :rules="prenomRules"
           prepend-inner-icon="mdi-account"
         ></v-text-field>
 
-        <v-autocomplete
-          clearable
-          v-model ="unite"
-          label="Unité de rattachement :"
-          :items="['Siège', 'Ouest', 'Benelux', 'Portugal', 'Suisse', 'Montpellier', 'Lille']"
-          variant="solo-filled"
-          prepend-inner-icon="mdi-home"
-        ></v-autocomplete>
-
         <v-text-field
           v-model="mail"
-          label="Adresse mail :"
+          label="Adresse mail"
           :rules="mailRules"
           prepend-inner-icon="mdi-at"
         ></v-text-field>
 
         <v-text-field
           v-model="password"
-          label="Mot de passe :"
+          label="Mot de passe"
           :rules="passwordRules"
           :type="passwordShow ? 'text' : 'password'"
           prepend-inner-icon="mdi-key"
@@ -56,13 +47,9 @@
 
         <v-card-actions class="justify-center">
               <v-btn :loading="loading" type="submit" color="primary">
-              <span class="white--text px-8">Envoyer</span>
-              </v-btn>
-                <v-spacer></v-spacer>
-              <v-btn color="primary" @click="register">
-              <span class="white--text px-8">Se connecter ?</span>
-              </v-btn>
-            </v-card-actions>
+              <span class="white--text px-8">Envoyer la demande</span>
+              </v-btn>      
+        </v-card-actions>
 
       </v-form>
     </v-sheet>

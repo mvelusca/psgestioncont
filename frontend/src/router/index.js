@@ -53,8 +53,8 @@ const routes = [
   },
 
   {
-    path: "/connexion",
-    name: "connexion",
+    path: "/registration",
+    name: "registration",
     component: ConnexionPage,
   },
 
