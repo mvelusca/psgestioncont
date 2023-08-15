@@ -8,6 +8,8 @@ import DashboardComponent from "@/components/DashboardComponent.vue";
 import UserPage from "@/views/UserPage.vue";
 import UserManagementComponent from "@/components/UserManagementComponent.vue"
 import ContainerManagementComponent from "@/components/ContainerManagementComponent.vue"
+import ConteneursPage from "@/views/ConteneursPage.vue"
+import CardDashboard from "@/components/CardDashboard.vue"
 
 
 const routes = [
@@ -61,7 +63,7 @@ const routes = [
   {
     path: "/test",
     name: "test",
-    component: Test,
+    component: CardDashboard,
   },
 
   {
@@ -74,6 +76,12 @@ const routes = [
     path: "/administration/containermanagement",
     name: "containermanagement",
     component: ContainerManagementComponent,
+  },
+
+  {
+    path: "/conteneurs",
+    name: "conteneurs",
+    component: ConteneursPage,
   },
 ];
 
